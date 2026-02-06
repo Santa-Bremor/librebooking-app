@@ -24,7 +24,7 @@ table.reservations td {
 table.reservations td.resourcename {
   padding: 0 3px;
   background-color: #EDEDED;
-  color: #999999;
+  color: #545454;
   width: 150px;
   height: 40px;
   max-width: 100%;
@@ -35,12 +35,12 @@ table.reservations td.resourcename {
 }
 
 table.reservations td.resourcename a {
-  color: #0772A1;
+  color: #222222;
   text-decoration: none;
 }
 
 table.reservations td.resourcename a:hover {
-  color: #3BA3D0;
+  color: #660000;
 }
 
 table.reservations td.resdate {
