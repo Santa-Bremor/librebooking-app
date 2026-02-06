@@ -46,14 +46,14 @@ table.reservations td.resourcename a:hover {
 table.reservations td.resdate {
   width: 150px;
   padding: 0 3px;
-  background-color: #36648B;
+  background-color: #6E6259;
   color: #F0F0F0;
 }
 
 table.reservations tr.today td.resdate,
 table.reservations td.today {
   color: #FFFFFF;
-  background-color: #5199d1;
+  background-color: #574d46 ;
 }
 
 table.reservations tr.today td.reslabel {
@@ -243,7 +243,7 @@ td.dropped {
 
 .reservable.hilite,
 #reservations .ui-selecting {
-  background-color: #23BF35;
+  background-color: #99ffa5;
 }
 
 .hilite {
@@ -252,7 +252,7 @@ td.dropped {
 
 .reservable.clicked,
 #reservations .ui-selected {
-  background-color: #259433;
+  background-color: #78cc82;
 }
 
 .reserved.clicked {
