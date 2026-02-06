@@ -121,16 +121,16 @@
 <body data-bs-theme='{$cssTheme}'>
 
     {if !isset($HideNavBar) || $HideNavBar == false}
-        <div class="d-flex align-items-center gap-2 m-2">
+        <div class="d-flex align-items-center gap-2 m-2 w-100">
             <a class="navbar-brand" href="{$HomeUrl}">
                 <img src="{$Path}img/{$LogoUrl}?{$Version}" alt="{$Title}" class="logo">
             </a>
-            <div class="border-start ps-2 d-flex flex-column">
-                {if $CompanyName neq ''}
-                    <h5 class="mb-0"><a class="link-primary" href="{$CompanyUrl}">{$CompanyName}</a></h5>
-                {/if}
-                <h5 class="mb-0"><a class="link-primary" href="{$HomeUrl}">{$AppTitle}</a></h5>
+            <div class="flex-grow-1 text-center">
+                                <h5 class="mb-0"><a class="link-primary" href="{$HomeUrl}">{$AppTitle}</a></h5>
             </div>
+                <a class="navbar-brand" href="{$HomeUrl}" style="visibility: hidden;">
+                    <img src="{$Path}img/{$LogoUrl}?{$Version}" alt="{$Title}" class="logo">
+                </a>
         </div>
         <nav class="navbar navbar-expand-lg bg-light shadow-sm py-2 sticky-top">
             <div class="container-fluid">
