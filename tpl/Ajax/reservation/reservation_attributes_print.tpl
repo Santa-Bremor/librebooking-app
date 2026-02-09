@@ -1,3 +1,4 @@
+{
 {if $Attributes|default:array()|count > 0}
 	{foreach from=$Attributes item=attribute name=attributes}
 		 "{$attribute->Id()}" :
