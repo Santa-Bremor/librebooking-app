@@ -414,6 +414,7 @@
             checkinUrl: 'ajax/reservation_checkin.php?action={ReservationAction::Checkin}',
             checkoutUrl: 'ajax/reservation_checkin.php?action={ReservationAction::Checkout}',
             userAutocompleteUrl: "ajax/autocomplete.php?type={AutoCompleteType::User}",
+            groupAutocompleteUrl: "ajax/autocomplete.php?type={AutoCompleteType::Group}",
             changeUserAutocompleteUrl: "ajax/autocomplete.php?type={AutoCompleteType::MyUsers}",
             waitlistUrl: 'ajax/reservation_waitlist.php',
         };

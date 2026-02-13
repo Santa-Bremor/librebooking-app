@@ -113,9 +113,27 @@ class AutoCompletePage extends Page
 
     private function GetGroups($term)
     {
+        if (empty($term)) {
+            $term = '';
+        }
         $filter = new SqlFilterLike(new SqlFilterColumn(TableNames::GROUPS_ALIAS, ColumnNames::GROUP_NAME), $term);
         $r = new GroupRepository();
-        return $r->GetList(1, PageInfo::All, null, null, $filter)->Results();
+        $groups = $r->GetList(1, PageInfo::All, null, null, $filter)->Results();
+        
+        // Filter out admin groups and default groups
+        return array_filter($groups, function ($group) {
+            // Skip default groups
+            if ($group->IsDefault) {
+                return false;
+            }
+            // Skip groups with admin roles
+            foreach ($group->Roles as $role) {
+                if (in_array($role, RoleLevel::All())) {
+                    return false;
+                }
+            }
+            return true;
+        });
     }
 
     /**
