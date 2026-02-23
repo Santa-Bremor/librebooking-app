@@ -499,7 +499,7 @@ class SchedulePage extends ActionPage implements ISchedulePage
 
     public function SetResourceGroupTree(ResourceGroupTree $resourceGroupTree)
     {
-        $this->Set('ResourceGroupsAsJson', json_encode($resourceGroupTree->GetGroups()));
+        $this->Set('ResourceGroupsAsJson', json_encode($resourceGroupTree->GetGroups(false)));
     }
 
     public function SetResourceTypes($resourceTypes)
