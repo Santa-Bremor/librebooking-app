@@ -107,7 +107,7 @@ img.logo {
 }
 
 .page-link:focus {
-    color: var(--primary) !important;
+    color: #FFFFFF !important;
 }
 
 .disabled>.page-link {
