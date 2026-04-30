@@ -1628,6 +1628,7 @@ class ConfigKeys
         'choices' => [
             '' => 'None',
             'PostReservation' => 'PostReservation',
+            'AccessoryNotification' => 'AccessoryNotification',
         ],
         'label' => 'Post-Reservation Plugin',
         'description' => 'Plugin used after making a reservation',

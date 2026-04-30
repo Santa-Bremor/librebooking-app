@@ -112,6 +112,21 @@ class Reservation
     protected $unchangedParticipants = [];
 
     /**
+     * @var array|ReservationAccessory[]
+     */
+    protected $addedAccessories = [];
+
+    /**
+     * @var array|ReservationAccessory[]
+     */
+    protected $removedAccessories = [];
+
+    /**
+     * @var array|ReservationAccessory[]
+     */
+    protected $unchangedAccessories = [];
+
+    /**
      * @var int[]
      */
     private $_inviteeIds = [];
@@ -328,6 +343,30 @@ class Reservation
     public function UnchangedParticipants()
     {
         return $this->unchangedParticipants;
+    }
+
+    /**
+     * @return array|ReservationAccessory[]
+     */
+    public function AddedAccessories()
+    {
+        return $this->addedAccessories;
+    }
+
+    /**
+     * @return array|ReservationAccessory[]
+     */
+    public function RemovedAccessories()
+    {
+        return $this->removedAccessories;
+    }
+
+    /**
+     * @return array|ReservationAccessory[]
+     */
+    public function UnchangedAccessories()
+    {
+        return $this->unchangedAccessories;
     }
 
     /**

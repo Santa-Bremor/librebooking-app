@@ -29,17 +29,29 @@ class ManageAccessoriesPresenter extends ActionPresenter
     private $resourceRepository;
 
     /**
+     * @var IUserRepository
+     */
+    private $userRepository;
+
+    /**
      * @param IManageAccessoriesPage $page
      * @param IResourceRepository $resourceRepository
      * @param IAccessoryRepository $accessoryRepository
+     * @param IUserRepository $userRepository
      */
-    public function __construct(IManageAccessoriesPage $page, IResourceRepository $resourceRepository, IAccessoryRepository $accessoryRepository)
+    public function __construct(
+        IManageAccessoriesPage $page,
+        IResourceRepository $resourceRepository,
+        IAccessoryRepository $accessoryRepository,
+        IUserRepository $userRepository
+    )
     {
         parent::__construct($page);
 
         $this->page = $page;
         $this->resourceRepository = $resourceRepository;
         $this->accessoryRepository = $accessoryRepository;
+        $this->userRepository = $userRepository;
 
         $this->AddAction(ManageAccessoriesActions::Add, 'AddAccessory');
         $this->AddAction(ManageAccessoriesActions::Change, 'ChangeAccessory');
@@ -51,19 +63,22 @@ class ManageAccessoriesPresenter extends ActionPresenter
     {
         $accessories = $this->resourceRepository->GetAccessoryList($this->page->GetSortField(), $this->page->GetSortDirection());
         $resources = $this->resourceRepository->GetResourceList();
+        $users = $this->userRepository->GetAll();
 
         $this->page->BindAccessories($accessories);
         $this->page->BindResources($resources);
+        $this->page->BindUsers($users);
     }
 
     public function AddAccessory()
     {
         $name = $this->page->GetAccessoryName();
         $quantity = $this->page->GetQuantityAvailable();
+        $responsibleUserId = $this->page->GetResponsibleUserId();
 
-        Log::Debug('Adding new accessory with name %s and quantity %s', $name, $quantity);
+        Log::Debug('Adding new accessory with name %s and quantity %s, responsible user %s', $name, $quantity, $responsibleUserId);
 
-        $this->accessoryRepository->Add(Accessory::Create($name, $quantity));
+        $this->accessoryRepository->Add(Accessory::Create($name, $quantity, $responsibleUserId));
     }
 
     public function ChangeAccessory()
@@ -71,12 +86,14 @@ class ManageAccessoriesPresenter extends ActionPresenter
         $id = $this->page->GetAccessoryId();
         $name = $this->page->GetAccessoryName();
         $quantity = $this->page->GetQuantityAvailable();
+        $responsibleUserId = $this->page->GetResponsibleUserId();
 
-        Log::Debug('Changing accessory with id %s to name %s and quantity %s', $id, $name, $quantity);
+        Log::Debug('Changing accessory with id %s to name %s and quantity %s, responsible user %s', $id, $name, $quantity, $responsibleUserId);
 
         $accessory = $this->accessoryRepository->LoadById($id);
         $accessory->SetName($name);
         $accessory->SetQuantityAvailable($quantity);
+        $accessory->SetResponsibleUserId($responsibleUserId);
 
         $this->accessoryRepository->Update($accessory);
     }

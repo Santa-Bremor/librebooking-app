@@ -41,6 +41,36 @@ class ExistingReservationSeries extends ReservationSeries
     protected $attachmentIds = [];
 
     /**
+     * @var array|ReservationAccessory[]
+     */
+    protected $addedAccessories = [];
+
+    /**
+     * @var array|ReservationAccessory[]
+     */
+    protected $removedAccessories = [];
+
+    /**
+     * @var array|ReservationAccessory[]
+     */
+    protected $unchangedAccessories = [];
+
+    /**
+     * @var array|BookableResource[]
+     */
+    protected $addedResources = [];
+
+    /**
+     * @var array|BookableResource[]
+     */
+    protected $removedResources = [];
+
+    /**
+     * @var array|BookableResource[]
+     */
+    protected $unchangedResources = [];
+
+    /**
      * @var string
      */
     private $_deleteReason;
@@ -311,6 +341,11 @@ class ExistingReservationSeries extends ReservationSeries
 
         $added = $diff->GetAddedToArray1();
         $removed = $diff->GetRemovedFromArray1();
+        $unchanged = $diff->GetUnchangedInArray1();
+
+        $this->addedResources = $added;
+        $this->removedResources = $removed;
+        $this->unchangedResources = $unchanged;
 
         /** @var BookableResource $resource */
         foreach ($added as $resource) {
@@ -323,6 +358,14 @@ class ExistingReservationSeries extends ReservationSeries
         }
 
         $this->_additionalResources = $resources;
+    }
+
+    /**
+     * @return bool
+     */
+    public function HasResourceChanges()
+    {
+        return !empty($this->addedResources) || !empty($this->removedResources);
     }
 
     /**
@@ -677,6 +720,11 @@ class ExistingReservationSeries extends ReservationSeries
 
         $added = $diff->GetAddedToArray1();
         $removed = $diff->GetRemovedFromArray1();
+        $unchanged = $diff->GetUnchangedInArray1();
+
+        $this->addedAccessories = $added;
+        $this->removedAccessories = $removed;
+        $this->unchangedAccessories = $unchanged;
 
         /** @var ReservationAccessory $accessory */
         foreach ($added as $accessory) {
@@ -689,6 +737,30 @@ class ExistingReservationSeries extends ReservationSeries
         }
 
         $this->_accessories = $accessories;
+    }
+
+    /**
+     * @return array|ReservationAccessory[]
+     */
+    public function AddedAccessories()
+    {
+        return $this->addedAccessories;
+    }
+
+    /**
+     * @return array|ReservationAccessory[]
+     */
+    public function RemovedAccessories()
+    {
+        return $this->removedAccessories;
+    }
+
+    /**
+     * @return array|ReservationAccessory[]
+     */
+    public function UnchangedAccessories()
+    {
+        return $this->unchangedAccessories;
     }
 
     /**
