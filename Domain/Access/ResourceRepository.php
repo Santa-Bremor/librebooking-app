@@ -803,47 +803,56 @@ class ResourceRepository implements IResourceRepository
 
 class AccessoryDto
 {
-    /**
-     * @var int
-     */
+    /** @var int */
     public $Id;
 
-    /**
-     * @var string
-     */
+    /** @var string */
     public $Name;
 
-    /**
-     * @var int
-     */
+    /** @var int */
     public $QuantityAvailable;
 
-    /**
-     * @var int
-     */
+    /** @var int */
     public $AssociatedResources;
+
+    /** @var int|null */
+    public $ResponsibleUserId;
+
+    /** @var string|null */
+    public $ResponsibleUserName;
 
     /**
      * @param int $id
      * @param string $name
      * @param int $quantityAvailable
      * @param int $associatedResourceCount
+     * @param int|null $responsibleUserId
+     * @param string|null $responsibleUserName
      */
-    public function __construct($id, $name, $quantityAvailable, $associatedResourceCount)
+    public function __construct($id, $name, $quantityAvailable, $associatedResourceCount, $responsibleUserId = null, $responsibleUserName = null)
     {
         $this->Id = $id;
         $this->Name = $name;
         $this->QuantityAvailable = $quantityAvailable;
         $this->AssociatedResources = (int)$associatedResourceCount;
+        $this->ResponsibleUserId = $responsibleUserId;
+        $this->ResponsibleUserName = $responsibleUserName;
     }
 
     public static function Create($row)
     {
+        $responsibleUserId = isset($row[ColumnNames::ACCESSORY_RESPONSIBLE_USER_ID]) ? $row[ColumnNames::ACCESSORY_RESPONSIBLE_USER_ID] : null;
+        $responsibleUserName = null;
+        if (!empty($responsibleUserId) && isset($row['responsible_user_name'])) {
+            $responsibleUserName = $row['responsible_user_name'];
+        }
         return new AccessoryDto(
             $row[ColumnNames::ACCESSORY_ID],
             $row[ColumnNames::ACCESSORY_NAME],
             $row[ColumnNames::ACCESSORY_QUANTITY],
-            $row[ColumnNames::ACCESSORY_RESOURCE_COUNT]
+            $row[ColumnNames::ACCESSORY_RESOURCE_COUNT],
+            $responsibleUserId,
+            $responsibleUserName
         );
     }
 }

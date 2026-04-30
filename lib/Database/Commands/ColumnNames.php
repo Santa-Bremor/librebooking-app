@@ -184,6 +184,7 @@ class ColumnNames
     public const ACCESSORY_RESOURCE_COUNT = 'num_resources';
     public const ACCESSORY_MINIMUM_QUANTITY = 'minimum_quantity';
     public const ACCESSORY_MAXIMUM_QUANTITY = 'maximum_quantity';
+    public const ACCESSORY_RESPONSIBLE_USER_ID = 'responsible_user_id';
 
     // RESERVATION ACCESSORY //
     public const QUANTITY = 'quantity';

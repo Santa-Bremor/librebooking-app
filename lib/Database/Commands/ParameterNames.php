@@ -11,6 +11,7 @@ class ParameterNames
     public const ACCESSORY_QUANTITY = '@quantity';
     public const ACCESSORY_MIN_QUANTITY = '@minimum_quantity';
     public const ACCESSORY_MAX_QUANTITY = '@maximum_quantity';
+    public const ACCESSORY_RESPONSIBLE_USER_ID = '@responsibleuserid';
 
     public const ACTIVATION_CODE = '@activation_code';
 

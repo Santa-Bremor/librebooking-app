@@ -2,37 +2,33 @@
 
 class Accessory
 {
-    /**
-     * @var int
-     */
+    /** @var int */
     private $id;
 
-
-    /**
-     * @var string
-     */
+    /** @var string */
     private $name;
 
-    /**
-     * @var int
-     */
+    /** @var int */
     private $quantityAvailable;
 
-    /**
-     * @var ResourceAccessory[]
-     */
+    /** @var ResourceAccessory[] */
     private $resources = [];
+
+    /** @var int|null */
+    private $responsibleUserId;
 
     /**
      * @param int $id
      * @param string $name
      * @param int $quantityAvailable
+     * @param int|null $responsibleUserId
      */
-    public function __construct($id, $name, $quantityAvailable)
+    public function __construct($id, $name, $quantityAvailable, $responsibleUserId = null)
     {
         $this->id = $id;
         $this->SetName($name);
         $this->SetQuantityAvailable($quantityAvailable);
+        $this->SetResponsibleUserId($responsibleUserId);
     }
 
     /**
@@ -78,6 +74,22 @@ class Accessory
     }
 
     /**
+     * @return int|null
+     */
+    public function GetResponsibleUserId()
+    {
+        return $this->responsibleUserId;
+    }
+
+    /**
+     * @param int|null $userId
+     */
+    public function SetResponsibleUserId($userId)
+    {
+        $this->responsibleUserId = empty($userId) ? null : (int)$userId;
+    }
+
+    /**
      * @return ResourceAccessory[]
      */
     public function Resources()
@@ -102,11 +114,12 @@ class Accessory
      * @static
      * @param string $name
      * @param int $quantity
+     * @param int|null $responsibleUserId
      * @return Accessory
      */
-    public static function Create($name, $quantity)
+    public static function Create($name, $quantity, $responsibleUserId = null)
     {
-        return new Accessory(null, $name, $quantity);
+        return new Accessory(null, $name, $quantity, $responsibleUserId);
     }
 
     /**

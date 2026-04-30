@@ -7,8 +7,8 @@ class Queries
     }
 
     public const ADD_ACCESSORY =
-        'INSERT INTO `accessories` (`accessory_name`, `accessory_quantity`)
-		VALUES (@accessoryname, @quantity)';
+        'INSERT INTO `accessories` (`accessory_name`, `accessory_quantity`, `responsible_user_id`)
+        VALUES (@accessoryname, @quantity, @responsibleuserid)';
 
     public const ADD_ACCESSORY_RESOURCE =
         'INSERT INTO `resource_accessories` (`resource_id`, `accessory_id`, `minimum_quantity`, `maximum_quantity`)
@@ -310,7 +310,7 @@ class Queries
     public const LOGIN_USER =
         'SELECT * FROM `users` WHERE (`username` = @username OR `email` = @username)';
 
-    public const GET_ACCESSORY_BY_ID = 'SELECT * FROM `accessories` WHERE `accessory_id` = @accessoryid';
+    public const GET_ACCESSORY_BY_ID = 'SELECT *, `responsible_user_id` FROM `accessories` WHERE `accessory_id` = @accessoryid';
 
     public const GET_ACCESSORY_RESOURCES = 'SELECT * FROM `resource_accessories` WHERE `accessory_id` = @accessoryid';
 
@@ -332,18 +332,19 @@ class Queries
 		ORDER BY
 			`ri`.`start_date` ASC';
 
-    public const GET_ALL_ACCESSORIES =
-        'SELECT `a`.*, `c`.`num_resources`,
-			(SELECT GROUP_CONCAT(CONCAT(`ra`.`resource_id`, ",", COALESCE(`ra`.`minimum_quantity`,""), ",",  COALESCE(`ra`.`maximum_quantity`,"")) SEPARATOR "!sep!")
-				FROM `resource_accessories` `ra` WHERE `ra`.`accessory_id` = `a`.`accessory_id`) as `resource_accessory_list`
- 			FROM `accessories` `a`
-			LEFT JOIN (
-				SELECT `accessory_id`, COUNT(*) AS `num_resources`
-				FROM `resource_accessories` `ra`
-				GROUP BY `ra`.`accessory_id`
-				) AS `c` ON `a`.`accessory_id` = `c`.`accessory_id`
+public const GET_ALL_ACCESSORIES =
+'SELECT `a`.*, `a`.`responsible_user_id`, CONCAT(`u`.`fname`, " ", `u`.`lname`) as `responsible_user_name`, `c`.`num_resources`,
+(SELECT GROUP_CONCAT(CONCAT(`ra`.`resource_id`, ",", COALESCE(`ra`.`minimum_quantity`,""), ",", COALESCE(`ra`.`maximum_quantity`,"")) SEPARATOR "!sep!")
+FROM `resource_accessories` `ra` WHERE `ra`.`accessory_id` = `a`.`accessory_id`) as `resource_accessory_list`
+FROM `accessories` `a`
+LEFT JOIN (
+SELECT `accessory_id`, COUNT(*) AS `num_resources`
+FROM `resource_accessories` `ra`
+GROUP BY `ra`.`accessory_id`
+) AS `c` ON `a`.`accessory_id` = `c`.`accessory_id`
+LEFT JOIN `users` `u` ON `a`.`responsible_user_id` = `u`.`user_id`
 
- 			ORDER BY `accessory_name`';
+ORDER BY `accessory_name`';
 
     public const GET_ALL_ANNOUNCEMENTS = 'SELECT `a`.*,
 			(SELECT GROUP_CONCAT(`ag`.`group_id`) FROM `announcement_groups` `ag` WHERE `ag`.`announcementid` = `a`.`announcementid`) as `group_ids`,
@@ -1065,8 +1066,8 @@ class Queries
 
     public const UPDATE_ACCESSORY =
         'UPDATE `accessories`
-		SET `accessory_name` = @accessoryname, `accessory_quantity` = @quantity
-		WHERE `accessory_id` = @accessoryid';
+        SET `accessory_name` = @accessoryname, `accessory_quantity` = @quantity, `responsible_user_id` = @responsibleuserid
+        WHERE `accessory_id` = @accessoryid';
 
     public const UPDATE_ANNOUNCEMENT =
         'UPDATE `announcements`

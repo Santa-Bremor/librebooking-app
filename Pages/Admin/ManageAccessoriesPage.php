@@ -49,6 +49,16 @@ interface IManageAccessoriesPage extends IActionPage
      * @return string[]
      */
     public function GetAccessoryResourcesMaximums();
+
+    /**
+     * @return int|null
+     */
+    public function GetResponsibleUserId();
+
+    /**
+     * @param UserDto[] $users
+     */
+    public function BindUsers($users);
 }
 
 class ManageAccessoriesPage extends ActionPage implements IManageAccessoriesPage
@@ -61,7 +71,7 @@ class ManageAccessoriesPage extends ActionPage implements IManageAccessoriesPage
     public function __construct()
     {
         parent::__construct('ManageAccessories', 1);
-        $this->presenter = new ManageAccessoriesPresenter($this, new ResourceRepository(), new AccessoryRepository());
+        $this->presenter = new ManageAccessoriesPresenter($this, new ResourceRepository(), new AccessoryRepository(), new UserRepository());
     }
 
     public function ProcessPageLoad()
@@ -163,5 +173,22 @@ class ManageAccessoriesPage extends ActionPage implements IManageAccessoriesPage
         }
 
         return $r;
+    }
+
+    /**
+     * @return int|null
+     */
+    public function GetResponsibleUserId()
+    {
+        $val = $this->GetForm(FormKeys::ACCESSORY_RESPONSIBLE_USER_ID);
+        return empty($val) ? null : (int)$val;
+    }
+
+    /**
+     * @param UserDto[] $users
+     */
+    public function BindUsers($users)
+    {
+        $this->Set('users', $users);
     }
 }

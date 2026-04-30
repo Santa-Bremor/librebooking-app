@@ -10,6 +10,7 @@ class FormKeys
     public const ACCESSORY_NAME = 'accessoryName';
     public const ACCESSORY_ID = 'ACCESSORY_ID';
     public const ACCESSORY_QUANTITY_AVAILABLE = 'accessoryQuantityAvailable';
+    public const ACCESSORY_RESPONSIBLE_USER_ID = 'accessoryResponsibleUserId';
     public const ACCESSORY_RESOURCE = 'accessoryResource';
     public const ACCESSORY_MIN_QUANTITY = 'ACCESSORY_MIN_QUANTITY';
     public const ACCESSORY_MAX_QUANTITY = 'ACCESSORY_MAX_QUANTITY';

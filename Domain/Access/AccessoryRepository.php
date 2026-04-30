@@ -45,11 +45,22 @@ class AccessoryRepository implements IAccessoryRepository
         $reader = ServiceLocator::GetDatabase()->Query(new GetAccessoryByIdCommand($accessoryId));
 
         if ($row = $reader->GetRow()) {
-            $accessory = new Accessory($row[ColumnNames::ACCESSORY_ID], $row[ColumnNames::ACCESSORY_NAME], $row[ColumnNames::ACCESSORY_QUANTITY]);
+            $responsibleUserId = isset($row[ColumnNames::ACCESSORY_RESPONSIBLE_USER_ID]) ? $row[ColumnNames::ACCESSORY_RESPONSIBLE_USER_ID] : null;
+            $accessory = new Accessory(
+                $row[ColumnNames::ACCESSORY_ID],
+                $row[ColumnNames::ACCESSORY_NAME],
+                $row[ColumnNames::ACCESSORY_QUANTITY],
+                $responsibleUserId
+            );
+
             $arReader = ServiceLocator::GetDatabase()->Query(new GetAccessoryResources($accessoryId));
 
             while ($row = $arReader->GetRow()) {
-                $accessory->AddResource($row[ColumnNames::RESOURCE_ID], $row[ColumnNames::ACCESSORY_MINIMUM_QUANTITY], $row[ColumnNames::ACCESSORY_MAXIMUM_QUANTITY]);
+                $accessory->AddResource(
+                    $row[ColumnNames::RESOURCE_ID],
+                    $row[ColumnNames::ACCESSORY_MINIMUM_QUANTITY],
+                    $row[ColumnNames::ACCESSORY_MAXIMUM_QUANTITY]
+                );
             }
 
             $reader->Free();
@@ -66,7 +77,13 @@ class AccessoryRepository implements IAccessoryRepository
      */
     public function Add(Accessory $accessory)
     {
-        return ServiceLocator::GetDatabase()->ExecuteInsert(new AddAccessoryCommand($accessory->GetName(), $accessory->GetQuantityAvailable()));
+        return ServiceLocator::GetDatabase()->ExecuteInsert(
+            new AddAccessoryCommand(
+                $accessory->GetName(),
+                $accessory->GetQuantityAvailable(),
+                $accessory->GetResponsibleUserId()
+            )
+        );
     }
 
     /**
@@ -75,10 +92,24 @@ class AccessoryRepository implements IAccessoryRepository
      */
     public function Update(Accessory $accessory)
     {
-        ServiceLocator::GetDatabase()->Execute(new UpdateAccessoryCommand($accessory->GetId(), $accessory->GetName(), $accessory->GetQuantityAvailable()));
+        ServiceLocator::GetDatabase()->Execute(
+            new UpdateAccessoryCommand(
+                $accessory->GetId(),
+                $accessory->GetName(),
+                $accessory->GetQuantityAvailable(),
+                $accessory->GetResponsibleUserId()
+            )
+        );
         ServiceLocator::GetDatabase()->Execute(new DeleteAcccessoryResourcesCommand($accessory->GetId()));
         foreach ($accessory->Resources() as $resource) {
-            ServiceLocator::GetDatabase()->Execute(new AddAccessoryResourceCommand($accessory->GetId(), $resource->ResourceId, $resource->MinQuantity, $resource->MaxQuantity));
+            ServiceLocator::GetDatabase()->Execute(
+                new AddAccessoryResourceCommand(
+                    $accessory->GetId(),
+                    $resource->ResourceId,
+                    $resource->MinQuantity,
+                    $resource->MaxQuantity
+                )
+            );
         }
     }
 
@@ -100,7 +131,13 @@ class AccessoryRepository implements IAccessoryRepository
         $accessories = [];
 
         while ($row = $reader->GetRow()) {
-            $accessory = new Accessory($row[ColumnNames::ACCESSORY_ID], $row[ColumnNames::ACCESSORY_NAME], $row[ColumnNames::ACCESSORY_QUANTITY]);
+            $responsibleUserId = isset($row[ColumnNames::ACCESSORY_RESPONSIBLE_USER_ID]) ? $row[ColumnNames::ACCESSORY_RESPONSIBLE_USER_ID] : null;
+            $accessory = new Accessory(
+                $row[ColumnNames::ACCESSORY_ID],
+                $row[ColumnNames::ACCESSORY_NAME],
+                $row[ColumnNames::ACCESSORY_QUANTITY],
+                $responsibleUserId
+            );
 
             $resourceList = $row[ColumnNames::RESOURCE_ACCESSORY_LIST];
             if (!empty($resourceList)) {

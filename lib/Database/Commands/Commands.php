@@ -4,11 +4,12 @@ require_once(ROOT_DIR . 'lib/Database/SqlCommand.php');
 
 class AddAccessoryCommand extends SqlCommand
 {
-    public function __construct($accessoryName, $quantityAvailable)
+    public function __construct($accessoryName, $quantityAvailable, $responsibleUserId = null)
     {
         parent::__construct(Queries::ADD_ACCESSORY);
         $this->AddParameter(new Parameter(ParameterNames::ACCESSORY_NAME, $accessoryName));
         $this->AddParameter(new Parameter(ParameterNames::ACCESSORY_QUANTITY, $quantityAvailable));
+        $this->AddParameter(new Parameter(ParameterNames::ACCESSORY_RESPONSIBLE_USER_ID, $responsibleUserId));
     }
 }
 
@@ -2580,12 +2581,13 @@ class SetDefaultScheduleCommand extends SqlCommand
 
 class UpdateAccessoryCommand extends SqlCommand
 {
-    public function __construct($accessoryId, $accessoryName, $quantityAvailable)
+    public function __construct($accessoryId, $accessoryName, $quantityAvailable, $responsibleUserId = null)
     {
         parent::__construct(Queries::UPDATE_ACCESSORY);
         $this->AddParameter(new Parameter(ParameterNames::ACCESSORY_ID, $accessoryId));
         $this->AddParameter(new Parameter(ParameterNames::ACCESSORY_NAME, $accessoryName));
         $this->AddParameter(new Parameter(ParameterNames::ACCESSORY_QUANTITY, $quantityAvailable));
+        $this->AddParameter(new Parameter(ParameterNames::ACCESSORY_RESPONSIBLE_USER_ID, $responsibleUserId));
     }
 }
 

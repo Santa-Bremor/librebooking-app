@@ -222,8 +222,10 @@ class en_us extends Language
         $strings['ResourceList'] = 'Resources to be reserved';
         $strings['Accessories'] = 'Accessories';
         $strings['InvitationList'] = 'Invitees';
-        $strings['AccessoryName'] = 'Accessory Name';
-        $strings['QuantityAvailable'] = 'Quantity Available';
+$strings['AccessoryName'] = 'Accessory Name';
+$strings['AccessoryResponsibleUser'] = 'Responsible User';
+$strings['NotAssigned'] = 'not assigned';
+$strings['QuantityAvailable'] = 'Quantity Available';
         $strings['Resources'] = 'Resources';
         $strings['Participants'] = 'Participants';
         $strings['User'] = 'User';

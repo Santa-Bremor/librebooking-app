@@ -215,8 +215,10 @@ class ru_ru extends Language
         $strings['ResourceList'] = 'Ресурсы для бронирования';
         $strings['Accessories'] = 'Аксессуары';
         $strings['InvitationList'] = 'Приглашенные';
-        $strings['AccessoryName'] = 'Имя аксессуара';
-        $strings['QuantityAvailable'] = 'Доступное количество';
+$strings['AccessoryName'] = 'Имя аксессуара';
+$strings['AccessoryResponsibleUser'] = 'Ответственный пользователь';
+$strings['NotAssigned'] = 'не назначен';
+$strings['QuantityAvailable'] = 'Доступное количество';
         $strings['Resources'] = 'Ресурсы';
         $strings['Participants'] = 'Участники';
         $strings['User'] = 'Пользователь';
